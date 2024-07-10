@@ -1,18 +1,40 @@
-import express, { Express } from "express";
+import express from "express";
 import cors from "cors";
-import showRouter from './controllers/showController';
+import http from "http";
+import { Server } from "socket.io";
+import { createHotelRouter } from "./controllers/hotelController";
+import { WeskiProvider } from "./providers/weskiProvider";
+
+
 
 const bodyParser = require('body-parser');
 
-const app: Express = express();
-const PORT = process.env.PORT || 5000;
+const app = express();
+const server = http.createServer(app);
+const io = new Server(server, {
+    cors: {
+        origin: "http://localhost:3000",
+        methods: ["GET", "POST"]
+    }
+})
 
 app.use(cors());
-app.use(bodyParser.json());
-const BASE_API_ROUTE = '/api'
+app.use(express.json())
 
-app.use(BASE_API_ROUTE + '/tvShow',showRouter);
+const weskiHotelProvider = new WeskiProvider();
+const hotelProviders = [weskiHotelProvider];
+const hotelRouter = createHotelRouter(io,hotelProviders);
+app.use('/hotel',hotelRouter);
 
-app.listen(PORT, () => {
+io.on('connection', (socket) => {
+    console.log('Client connected');
+  
+    socket.on('disconnect', () => {
+      console.log('Client disconnected');
+    });
+  });
+
+const PORT = process.env.PORT || 5000;
+server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
