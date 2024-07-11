@@ -1,4 +1,4 @@
-# How to initail the project
+# How to initial the project
 clone the repository
 
 # Getting Started with Client
