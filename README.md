@@ -1,5 +1,8 @@
 # How to initial the project
 clone the repository
+```bash
+npm install
+``` 
 
 # Getting Started with Client
 To run the client:
