@@ -12,7 +12,7 @@ const Hotel: React.FC<HotelProps> = ({hotel}) => {
     const {destination,mainURL,name,price,rating} = hotel
     const dest = DESTINATIONS.find(dest=>dest.id === Number(destination));
     return (
-        <Card sx={{ display: 'flex',minWidth: 550, margin:5 }}>
+        <Card sx={{ display: 'flex',minWidth: 600, margin:5 }}>
         <CardMedia
           component="img"
           sx={{ width: 300 }}

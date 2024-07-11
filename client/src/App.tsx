@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import SearchBar from './components/Search/Search';
 import { io } from 'socket.io-client';
 import { HotelType, SearchQuery } from './types';
@@ -13,14 +13,6 @@ function App() {
   const [searchDescription, setSearchDescription] = useState<SearchQuery>();
 
   useEffect(() => {
-    socket.on('connect', () => {
-      console.log('Connected to Socket.IO server');
-    });
-
-    socket.on('disconnect', () => {
-      console.log('Disconnected from Socket.IO server');
-    });
-
     socket.on('searchResults', (newResults) => {
       setResults((prevResults) => [...prevResults, ...newResults]
       .sort((a: { price: string; }, b: { price: string; }) => parseFloat(a.price) - parseFloat(b.price)));
@@ -31,9 +23,9 @@ function App() {
     };
   }, []);
 
-  const handleSearchDescription = (reqData: SearchQuery) => {
+  const handleSearchDescription = useCallback((reqData: SearchQuery) => {
     setSearchDescription(reqData);
-  }
+  },[])
 
   return (
     <div style={{backgroundColor:'rgba(25, 118, 210, 0.08)'}}>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { AppBar, Button, FormControl, InputLabel, MenuItem, Select, Toolbar } from '@mui/material';
 import axios from 'axios';
 import { SearchQuery } from '../../types';
@@ -11,9 +11,9 @@ type SearchBarProps = {
   handleSearchDescription: (data: SearchQuery) => void
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ handleSearchDescription }) => {
-  const [destination, setDestination] = useState();
-  const [groupSize, setGroupSize] = useState();
+const SearchBar: React.FC<SearchBarProps> = React.memo(({ handleSearchDescription }) => {
+  const [destination, setDestination] = useState('');
+  const [groupSize, setGroupSize] = useState('');
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
 
@@ -84,6 +84,6 @@ const SearchBar: React.FC<SearchBarProps> = ({ handleSearchDescription }) => {
       </Toolbar>
     </AppBar>
   );
-};
+});
 
 export default SearchBar;

@@ -12,7 +12,6 @@ export const createHotelRouter = (io:SocketServer, hotelProviders: IHotelProvide
             hotelProviders.forEach(async (provider) => {
                 try {
                     const data: HotelResponse[] = await provider.fetchHotelData({ ski_site, from_date, to_date, group_size: i });
-                    console.log('resDAta: ', data);
                     io.emit('searchResults', data);
                 } catch (error) {
                     console.error(`Error fetching data from provider for group_size ${i}`, error);
